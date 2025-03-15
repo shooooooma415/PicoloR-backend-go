@@ -11,7 +11,7 @@ type Room struct {
 	StartedAT time.Time
 }
 
-type RoomMembers struct {
+type RoomMember struct {
 	RoomId RoomID
 	UserId int
 }
