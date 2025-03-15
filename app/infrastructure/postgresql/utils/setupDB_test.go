@@ -1,7 +1,7 @@
 package utils_test
 
 import (
-	setupDB "picolor-backend/app/infrastructure/utils"
+	setupDB "picolor-backend/app/infrastructure/postgresql/utils"
 	"testing"
 
 	_ "github.com/lib/pq"
