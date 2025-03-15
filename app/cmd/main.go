@@ -4,7 +4,7 @@ import (
 	"log"
 	"net/http"
 
-	v1 "picolor-backend/server/v1"
+	v1 "picolor-backend/app/server/v1"
 )
 
 func main() {

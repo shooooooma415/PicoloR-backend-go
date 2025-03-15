@@ -1,7 +1,7 @@
 package v1
 
 import (
-	v1 "picolor-backend/presentation/v1"
+	v1 "picolor-backend/app/presentation/v1"
 
 	"github.com/gorilla/mux"
 )
