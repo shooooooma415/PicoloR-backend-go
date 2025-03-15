@@ -13,3 +13,8 @@ type Color struct {
 	Color   ColorCode
 	RoomId  room.RoomId
 }
+
+type CreateColor struct {
+	ColorCodes []ColorCode
+	RoomId    room.RoomId
+}
