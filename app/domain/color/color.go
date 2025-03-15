@@ -6,15 +6,15 @@ import (
 
 type ColorCode string
 
-type ColorId int
+type ColorID int
 
 type Color struct {
-	ColorId ColorId
+	ColorId ColorID
 	Color   ColorCode
-	RoomId  room.RoomId
+	RoomId  room.RoomID
 }
 
 type CreateColor struct {
 	ColorCodes []ColorCode
-	RoomId    room.RoomId
+	RoomId    room.RoomID
 }

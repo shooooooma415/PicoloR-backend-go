@@ -1,14 +1,14 @@
 package room
 
-type RoomId int
+type RoomID int
 
 type Room struct {
-	RoomId RoomId
+	RoomId RoomID
 	IsStart bool
 	IsFinish bool
 }
 
 type RoomMembers struct {
-	RoomId RoomId
+	RoomId RoomID
 	UserId int
 }

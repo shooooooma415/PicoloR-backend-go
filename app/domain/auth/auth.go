@@ -6,19 +6,19 @@ import (
 
 type UserName string
 
-type UserId int
+type UserID int
 
 type User struct {
-	Id   UserId
+	Id   UserID
 	Name UserName
 }
 
 type JoinUser struct {
-	RoomId room.RoomId
+	RoomID room.RoomID
 	UserName UserName
 }
 
 type DeleteUser struct {
-	RoomId room.RoomId
-	UserId UserId
+	RoomID room.RoomID
+	UserID UserID
 }
