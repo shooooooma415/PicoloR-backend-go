@@ -36,3 +36,26 @@ func (q *AuthRepositoryImpl) CreateUser(joinUser auth.JoinUser) (*auth.User, err
 	}
 	return &createdUser, nil
 }
+
+func (q *AuthRepositoryImpl) DeleteUser(deleteUser auth.DeleteUser) (*auth.User, error) {
+	query := `
+		DELETE FROM users 
+		WHERE id = $1
+		Returning id, name
+		`
+
+	var deletedUser auth.User
+		
+	err := q.db.QueryRow(
+		query,
+		deleteUser.UserID,
+	).Scan(
+		&deletedUser.Id,
+		&deletedUser.Name,
+	)
+
+	if err != nil {
+		return nil, err
+	}
+	return &deletedUser, nil
+}
