@@ -7,13 +7,7 @@ import (
 	"github.com/gorilla/mux"
 )
 
-func ControllerRouter(service *authApp.AuthServiceImpl) *mux.Router {
-	router := mux.NewRouter()
-	controllerRouter := router.PathPrefix("/controller").Subrouter()
-	
+func ControllerRouter(router *mux.Router, service *authApp.AuthServiceImpl) {
 	postController := v1.NewPostController(service)
-
-	controllerRouter.HandleFunc("/room", postController.PostControllerHandler()).Methods("POST")
-
-	return router
+	router.HandleFunc("/room", postController.PostControllerHandler()).Methods("POST")
 }

@@ -10,7 +10,7 @@ type RoomServiceImpl struct {
 	roomRepo room.RoomRepository
 }
 
-func NewAuthService(authRepo auth.AuthRepository, roomRepo room.RoomRepository) *RoomServiceImpl {
+func NewRoomService(authRepo auth.AuthRepository, roomRepo room.RoomRepository) *RoomServiceImpl {
 	return &RoomServiceImpl{
 		authRepo: authRepo,
 		roomRepo: roomRepo,
