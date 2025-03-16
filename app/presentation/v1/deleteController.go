@@ -9,7 +9,6 @@ import (
 )
 
 type DeleteControllerParams struct {
-	RoomID auth.RoomID `json:"roomID"`
 	UserID auth.UserID `json:"userID"`
 }
 
@@ -33,12 +32,8 @@ func (pc *DeleteController) DeleteControllerHandler() http.HandlerFunc {
 			return
 		}
 
-		deleteInfo := auth.DeleteUser{
-			RoomID:   req.RoomID,
-			UserID: req.UserID,
-		}
 
-		userID, err := pc.service.DeleteUserByUserID(deleteInfo)
+		userID, err := pc.service.DeleteUserByUserID(req.UserID)
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			json.NewEncoder(w).Encode(utils.NewErrorResponse(err.Error()))
