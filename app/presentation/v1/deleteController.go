@@ -21,8 +21,8 @@ type DeleteController struct {
 	service *authApp.AuthServiceImpl
 }
 
-func NewDeleteController(service *authApp.AuthServiceImpl) *PostController {
-	return &PostController{service: service}
+func NewDeleteController(service *authApp.AuthServiceImpl) *DeleteController {
+	return &DeleteController{service: service}
 }
 
 func (pc *DeleteController) DeleteControllerHandler() http.HandlerFunc {
