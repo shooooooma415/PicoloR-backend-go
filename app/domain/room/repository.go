@@ -11,5 +11,5 @@ type RoomRepository interface {
 	// GetRoom(roomId auth.RoomID) (*Room, error)
 	// GetIsStart(roomId auth.RoomID) (*Room, error)
 	// GetIsFinish(roomId auth.RoomID) (*Room, error)
-	DeleteRoom(roomId auth.RoomID) (*Room, error)
+	DeleteRoom(roomID auth.RoomID) (*auth.RoomID, error)
 }
