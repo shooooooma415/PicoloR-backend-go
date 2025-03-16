@@ -12,8 +12,8 @@ type CreateUserImpl struct {
 }
 
 type CreateUserAndJoinRoom struct {
-	roomId   auth.RoomID
-	userName auth.UserName
+	RoomID   auth.RoomID
+	UserName auth.UserName
 }
 
 func NewCreateUserAndJoinRoom(authRepo auth.AuthRepository, roomRepo room.RoomRepository) *CreateUserImpl {
@@ -23,10 +23,10 @@ func NewCreateUserAndJoinRoom(authRepo auth.AuthRepository, roomRepo room.RoomRe
 	}
 }
 
-func (c *CreateUserImpl) CreateUserAndJoinRoom(createInfo CreateUserAndJoinRoom) (*auth.UserID, error) {
+func (c *CreateUserImpl) Run(createInfo CreateUserAndJoinRoom) (*auth.UserID, error) {
 	joinUser := auth.JoinUser{
-		RoomID:   createInfo.roomId,
-		UserName: createInfo.userName,
+		RoomID:   createInfo.RoomID,
+		UserName: createInfo.UserName,
 	}
 
 	createdUser, err := c.authRepo.CreateUser(joinUser)
@@ -36,7 +36,7 @@ func (c *CreateUserImpl) CreateUserAndJoinRoom(createInfo CreateUserAndJoinRoom)
 	}
 
 	joinRoom := room.RoomMember{
-		RoomID: createInfo.roomId,
+		RoomID: createInfo.RoomID,
 		UserID: createdUser.ID,
 	}
 
