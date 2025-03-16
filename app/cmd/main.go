@@ -26,21 +26,14 @@ func main() {
 	authService := authApp.NewAuthService(authRepo, roomRepo)
 	roomService := roomApp.NewRoomService(authRepo, roomRepo)
 
-	// ここで router を定義
 	router := mux.NewRouter()
 
-	// サブルーターに登録
 	controllerRouter := router.PathPrefix("/controller").Subrouter()
 	v1.ControllerRouter(controllerRouter, authService)
 
 	hostRouter := router.PathPrefix("/host").Subrouter()
 	v1.HostRouter(hostRouter, roomService)
 
-	// NotFoundHandlerの追加
-	router.NotFoundHandler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		log.Printf("NotFound: %s %s", r.Method, r.URL.Path)
-		http.Error(w, "Custom 404 - Not Found", http.StatusNotFound)
-	})
 
 	log.Println("Server is running on :8000")
 	if err := http.ListenAndServe(":8000", router); err != nil {

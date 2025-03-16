@@ -10,7 +10,7 @@ type Room struct {
 	RoomID    auth.RoomID
 	IsStart   bool
 	IsFinish  bool
-	StartedAT time.Time
+	StartAt time.Time
 }
 
 type RoomMember struct {

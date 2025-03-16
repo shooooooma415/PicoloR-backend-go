@@ -1,7 +1,7 @@
 package room
 
 type RoomRepository interface {
-	CreateRoom() (*Room, error)
+	CreateRoom(room Room) (*Room, error)
 	CreateRoomMember(user RoomMember) (*RoomMember, error)
 	// StartRoom(roomId auth.RoomID) (*Room, error)
 	// FinishRoom(roomId auth.RoomID) (*Room, error)

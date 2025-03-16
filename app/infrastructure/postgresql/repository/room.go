@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	"picolor-backend/app/domain/room"
+	"time"
 )
 
 type RoomRepositoryImpl struct {
@@ -14,23 +15,33 @@ func NewRoomRepository(db *sql.DB) *RoomRepositoryImpl {
 	return &RoomRepositoryImpl{db: db}
 }
 
-func (q *RoomRepositoryImpl) CreateRoom() (*room.Room, error) {
+func (q *RoomRepositoryImpl) CreateRoom(createRoom room.Room) (*room.Room, error) {
 	query := `
-		INSERT INTO rooms
-		RETURNING *
-		`
+		INSERT INTO rooms (is_start, is_finish, start_at)
+		VALUES ($1, $2, $3)
+		RETURNING id, is_start, is_finish, start_at
+	`
+
+	createRoom.StartAt = time.Now()
 
 	var createdRoom room.Room
 
 	err := q.db.QueryRow(
 		query,
+		createRoom.IsStart,
+		createRoom.IsFinish,
+		createRoom.StartAt,
 	).Scan(
-		&createdRoom,
+		&createdRoom.RoomID,
+		&createdRoom.IsStart,
+		&createdRoom.IsFinish,
+		&createdRoom.StartAt,
 	)
 
 	if err != nil {
-		return nil, fmt.Errorf("failed to create room:%w", err)
+		return nil, fmt.Errorf("failed to create room: %w", err)
 	}
+
 	return &createdRoom, nil
 }
 
@@ -46,7 +57,7 @@ func (q *RoomRepositoryImpl) CreateRoomMember(user room.RoomMember) (*room.RoomM
 	err := q.db.QueryRow(
 		query,
 		user.UserID,
-		user.RoomID ,
+		user.RoomID,
 	).Scan(
 		&createdRoomMember.UserID,
 		&createdRoomMember.RoomID,
@@ -57,4 +68,3 @@ func (q *RoomRepositoryImpl) CreateRoomMember(user room.RoomMember) (*room.RoomM
 	}
 	return &createdRoomMember, nil
 }
-

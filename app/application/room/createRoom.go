@@ -3,13 +3,21 @@ package room
 import (
 	"fmt"
 	"picolor-backend/app/domain/auth"
+	"picolor-backend/app/domain/room"
+	"time"
 )
 
 func (c *RoomServiceImpl) CreateRoom() (*auth.RoomID, error) {
-	room, err := c.roomRepo.CreateRoom()
+	CreateRoom := room.Room{
+		IsStart:  false,
+		IsFinish: false,
+		StartAt:  time.Now(),
+	}
+
+	CreatedRoom, err := c.roomRepo.CreateRoom(CreateRoom)
 
 	if err != nil {
 		return nil, fmt.Errorf("failed to create room:%w", err)
 	}
-	return &room.RoomID, nil
+	return &CreatedRoom.RoomID, nil
 }
