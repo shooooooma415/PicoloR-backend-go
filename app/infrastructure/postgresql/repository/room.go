@@ -10,11 +10,11 @@ type RoomRepositoryImpl struct {
 	db *sql.DB
 }
 
-func NewRoomRepository(db *sql.DB) *AuthRepositoryImpl {
-	return &AuthRepositoryImpl{db: db}
+func NewRoomRepository(db *sql.DB) *RoomRepositoryImpl {
+	return &RoomRepositoryImpl{db: db}
 }
 
-func (q *RoomRepositoryImpl) CreateRooms() (*room.Room, error) {
+func (q *RoomRepositoryImpl) CreateRoom() (*room.Room, error) {
 	query := `
 		INSERT INTO rooms
 		RETURNING *

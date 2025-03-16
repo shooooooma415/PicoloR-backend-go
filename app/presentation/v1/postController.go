@@ -18,10 +18,10 @@ type PostControllerResponse struct {
 }
 
 type PostController struct {
-	service *authApp.CreateUserImpl
+	service *authApp.AuthServiceImpl
 }
 
-func NewPostController(service *authApp.CreateUserImpl) *PostController {
+func NewPostController(service *authApp.AuthServiceImpl) *PostController {
 	return &PostController{service: service}
 }
 
@@ -38,7 +38,7 @@ func (pc *PostController) PostHandler() http.HandlerFunc {
 			UserName: req.UserName,
 		}
 
-		userID, err := pc.service.Run(createInfo)
+		userID, err := pc.service.CreateUserAndJoinRoom(createInfo)
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			json.NewEncoder(w).Encode(utils.NewErrorResponse(err.Error()))

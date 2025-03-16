@@ -3,13 +3,28 @@ package main
 import (
 	"log"
 	"net/http"
-
 	v1 "picolor-backend/app/server/v1"
+	authApp "picolor-backend/app/application/auth"
+	repo "picolor-backend/app/infrastructure/postgresql/repository"
+	utils "picolor-backend/app/infrastructure/postgresql/utils"
 )
 
 func main() {
-	router := v1.NewRouter()
 
-	log.Println("Server is running on port 8000")
-	log.Fatal(http.ListenAndServe(":8000", router))
+	db, err := utils.ConnectDB()
+	if err != nil {
+		log.Fatalf("Failed to connect to the database: %v", err)
+	}
+	defer db.Close()
+
+	authRepo := repo.NewAuthRepository(db)
+	roomRepo := repo.NewRoomRepository(db)
+
+
+	authService := authApp.NewAuthService(authRepo, roomRepo)
+
+	router := v1.ControllerRouter(authService)
+
+	log.Println("Server is running on :8080")
+	http.ListenAndServe(":8080", router)
 }
