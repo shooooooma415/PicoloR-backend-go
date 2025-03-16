@@ -15,3 +15,11 @@ type Post struct {
 	Image      Image
 	PostedTime string
 }
+
+type GetPost struct {
+	UserName   auth.UserName
+	Rank       int
+	RoomID     auth.RoomID
+	Image      Image
+	PostedTime string
+}
