@@ -114,3 +114,25 @@ func (q *RoomRepositoryImpl) DeleteRoom(roomID auth.RoomID) (*auth.RoomID, error
 	}
 	return &deletedRoomID, nil
 }
+
+func (q *RoomRepositoryImpl) DeleteRoomMembersByRoomID(roomID auth.RoomID) (*auth.RoomID, error) {
+	query := `
+		DELETE FROM room_members
+		WHERE room_id = $1
+		RETURNING room_id
+		`
+
+	var deletedRoomID auth.RoomID
+
+	err := q.db.QueryRow(
+		query,
+		roomID,
+	).Scan(
+		&deletedRoomID,
+	)
+
+	if err != nil {
+		return nil, fmt.Errorf("failed to delete room members:%w", err)
+	}
+	return &deletedRoomID, nil
+}
