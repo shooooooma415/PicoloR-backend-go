@@ -8,8 +8,9 @@ import (
 type Image string
 
 type Post struct {
-	UserId     auth.UserID
-	ColorId    color.ColorID
+	UserID     auth.UserID
+	RoomID     auth.RoomID
+	ColorID    color.ColorID
 	Rank       int
 	Image      Image
 	PostedTime string

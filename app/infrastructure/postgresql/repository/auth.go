@@ -59,3 +59,26 @@ func (q *AuthRepositoryImpl) DeleteUserByUserID(userID auth.UserID) (*auth.User,
 	}
 	return &deletedUser, nil
 }
+
+func (q *AuthRepositoryImpl) FindUserByUserID(userID auth.UserID) (*auth.User, error) {
+	query := `
+		SELECT id, name
+		FROM users
+		WHERE id = $1
+		`
+
+	var foundUser auth.User
+		
+	err := q.db.QueryRow(
+		query,
+		userID,
+	).Scan(
+		&foundUser.ID,
+		&foundUser.Name,
+	)
+
+	if err != nil {
+		return nil, fmt.Errorf("failed to find user:%w", err)
+	}
+	return &foundUser, nil
+}
