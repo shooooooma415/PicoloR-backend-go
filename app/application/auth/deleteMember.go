@@ -7,16 +7,16 @@ import (
 
 func (c *AuthServiceImpl) DeleteMember(deleteInfo auth.DeleteUser) (*auth.UserID, error) {
 
-	deletedUser, err := c.authRepo.DeleteUser(deleteInfo)
+	_, err := c.roomRepo.DeleteRoomMember(deleteInfo.UserID)
 
 	if err != nil {
 		return nil, fmt.Errorf("failed to delete user:%w", err)
 	}
 
-	deleteMember, err := c.roomRepo.DeleteRoomMember(deletedUser.ID)
+	deletedUser, err := c.authRepo.DeleteUser(deleteInfo)
 
 	if err != nil {
 		return nil, fmt.Errorf("failed to delete room member:%w", err)
 	}
-	return &deleteMember.UserID, nil
+	return &deletedUser.ID, nil
 }
