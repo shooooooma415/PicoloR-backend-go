@@ -25,7 +25,7 @@ func NewPostController(service *authApp.AuthServiceImpl) *PostController {
 	return &PostController{service: service}
 }
 
-func (pc *PostController) PostHandler() http.HandlerFunc {
+func (pc *PostController) PostControllerHandler() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var req PostControllerParams
 		if err := json.NewDecoder(r.Body).Decode(&req); err != nil {

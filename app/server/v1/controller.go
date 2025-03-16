@@ -13,7 +13,7 @@ func ControllerRouter(service *authApp.AuthServiceImpl) *mux.Router {
 	
 	postController := v1.NewPostController(service)
 
-	controllerRouter.HandleFunc("/room", postController.PostHandler()).Methods("POST")
+	controllerRouter.HandleFunc("/room", postController.PostControllerHandler()).Methods("POST")
 
 	return router
 }
