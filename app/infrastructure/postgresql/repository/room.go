@@ -37,8 +37,8 @@ func (q *RoomRepositoryImpl) CreateRoom() (*room.Room, error) {
 func (q *RoomRepositoryImpl) CreateRoomMember(user room.RoomMember) (*room.RoomMember, error) {
 	query := `
 		INSERT INTO room_members (user_id, room_id)
-		VALUES $1, $2
-		RETURNING *
+		VALUES ($1, $2)
+		RETURNING user_id, room_id
 		`
 
 	var createdRoomMember room.RoomMember
@@ -48,7 +48,8 @@ func (q *RoomRepositoryImpl) CreateRoomMember(user room.RoomMember) (*room.RoomM
 		user.UserID,
 		user.RoomID ,
 	).Scan(
-		&createdRoomMember,
+		&createdRoomMember.UserID,
+		&createdRoomMember.RoomID,
 	)
 
 	if err != nil {

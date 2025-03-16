@@ -16,16 +16,15 @@ func NewAuthRepository(db *sql.DB) *AuthRepositoryImpl {
 
 func (q *AuthRepositoryImpl) CreateUser(joinUser auth.JoinUser) (*auth.User, error) {
 	query := `
-		INSERT INTO users name 
-		VALUES $1
-		Returning id, name
+		INSERT INTO users (name) 
+		VALUES ($1)
+		RETURNING id, name
 		`
 
 	var createdUser auth.User
 		
 	err := q.db.QueryRow(
 		query,
-		joinUser.RoomID,
 		joinUser.UserName,
 	).Scan(
 		&createdUser.ID,

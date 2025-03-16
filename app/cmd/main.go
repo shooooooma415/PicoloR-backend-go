@@ -25,6 +25,6 @@ func main() {
 
 	router := v1.ControllerRouter(authService)
 
-	log.Println("Server is running on :8080")
-	http.ListenAndServe(":8080", router)
+	log.Println("Server is running on :8000")
+	http.ListenAndServe(":8000", router)
 }
