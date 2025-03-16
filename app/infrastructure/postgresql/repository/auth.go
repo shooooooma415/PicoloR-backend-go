@@ -28,7 +28,7 @@ func (q *AuthRepositoryImpl) CreateUser(joinUser auth.JoinUser) (*auth.User, err
 		joinUser.RoomID,
 		joinUser.UserName,
 	).Scan(
-		&createdUser.Id,
+		&createdUser.ID,
 		&createdUser.Name,
 	)
 
@@ -51,7 +51,7 @@ func (q *AuthRepositoryImpl) DeleteUser(deleteUser auth.DeleteUser) (*auth.User,
 		query,
 		deleteUser.UserID,
 	).Scan(
-		&deletedUser.Id,
+		&deletedUser.ID,
 		&deletedUser.Name,
 	)
 

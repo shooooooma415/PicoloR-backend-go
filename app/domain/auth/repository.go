@@ -1,6 +1,6 @@
 package auth
 
 type AuthRepository interface {
-	CreateUser(JoinRoom JoinUser) (*User, error)
+	CreateUser(JoinUser JoinUser) (*User, error)
 	DeleteUser(deleteUser DeleteUser) (*User, error)
 }

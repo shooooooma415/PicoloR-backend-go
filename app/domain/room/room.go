@@ -1,17 +1,19 @@
 package room
 
-import "time"
+import (
+	"picolor-backend/app/domain/auth"
+	"time"
+)
 
-type RoomID int
 
 type Room struct {
-	RoomID RoomID
-	IsStart bool
-	IsFinish bool
+	RoomID    auth.RoomID
+	IsStart   bool
+	IsFinish  bool
 	StartedAT time.Time
 }
 
 type RoomMember struct {
-	RoomID RoomID
-	UserID int
+	RoomID auth.RoomID
+	UserID auth.UserID
 }

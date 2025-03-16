@@ -1,7 +1,7 @@
 package post
 
-import "picolor-backend/app/domain/room"
+import "picolor-backend/app/domain/auth"
 
 type PostRepository interface {
-	GetPosts(roomID room.RoomID) ([]Post, error)
+	GetPosts(roomID auth.RoomID) ([]Post, error)
 }

@@ -1,8 +1,8 @@
 package color
 
-import "picolor-backend/app/domain/room"
+import "picolor-backend/app/domain/auth"
 
 type ColorRepository interface {
 	CreateColors(CreateColor CreateColor) (*CreateColor, error)
-	GetColors(roomId room.RoomID) ([]Color, error)
-}	
+	GetColors(roomId auth.RoomID) ([]Color, error)
+}

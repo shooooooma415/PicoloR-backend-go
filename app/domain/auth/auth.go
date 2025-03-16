@@ -1,24 +1,21 @@
 package auth
 
-import (
-	"picolor-backend/app/domain/room"
-)
-
 type UserName string
 
 type UserID int
+type RoomID int
 
 type User struct {
-	Id   UserID
+	ID   UserID
 	Name UserName
 }
 
 type JoinUser struct {
-	RoomID room.RoomID
+	RoomID   RoomID
 	UserName UserName
 }
 
 type DeleteUser struct {
-	RoomID room.RoomID
+	RoomID RoomID
 	UserID UserID
 }

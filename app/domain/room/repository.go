@@ -1,13 +1,14 @@
 package room
 
+import "picolor-backend/app/domain/auth"
 
 type RoomRepository interface {
 	CreateRoom() (*Room, error)
 	CreateRoomMember(user RoomMember) (*RoomMember, error)
-	StartRoom(roomId RoomID) (*Room, error)
-	FinishRoom(roomId RoomID) (*Room, error)
-	GetRoom(roomId RoomID) (*Room, error)
-	GetIsStart(roomId RoomID) (*Room, error)
-	GetIsFinish(roomId RoomID) (*Room, error)
-	DeleteRoom(roomId RoomID) (*Room, error)
+	StartRoom(roomId auth.RoomID) (*Room, error)
+	FinishRoom(roomId auth.RoomID) (*Room, error)
+	GetRoom(roomId auth.RoomID) (*Room, error)
+	GetIsStart(roomId auth.RoomID) (*Room, error)
+	GetIsFinish(roomId auth.RoomID) (*Room, error)
+	DeleteRoom(roomId auth.RoomID) (*Room, error)
 }
