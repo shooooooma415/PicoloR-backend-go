@@ -38,7 +38,7 @@ func (pc *DeleteController) DeleteControllerHandler() http.HandlerFunc {
 			UserID: req.UserID,
 		}
 
-		userID, err := pc.service.DeleteMember(deleteInfo)
+		userID, err := pc.service.DeleteUserByUserID(deleteInfo)
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			json.NewEncoder(w).Encode(utils.NewErrorResponse(err.Error()))

@@ -37,7 +37,7 @@ func (q *AuthRepositoryImpl) CreateUser(joinUser auth.JoinUser) (*auth.User, err
 	return &createdUser, nil
 }
 
-func (q *AuthRepositoryImpl) DeleteUser(deleteUser auth.DeleteUser) (*auth.User, error) {
+func (q *AuthRepositoryImpl) DeleteUserByUserID(deleteUser auth.DeleteUser) (*auth.User, error) {
 	query := `
 		DELETE FROM users 
 		WHERE id = $1
