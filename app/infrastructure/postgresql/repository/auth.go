@@ -2,6 +2,7 @@ package repository
 
 import (
 	"database/sql"
+	"fmt"
 	"picolor-backend/app/domain/auth"
 )
 
@@ -32,7 +33,7 @@ func (q *AuthRepositoryImpl) CreateUser(joinUser auth.JoinUser) (*auth.User, err
 	)
 
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to create user:%w", err)
 	}
 	return &createdUser, nil
 }
@@ -55,7 +56,7 @@ func (q *AuthRepositoryImpl) DeleteUser(deleteUser auth.DeleteUser) (*auth.User,
 	)
 
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to delete user:%w", err)
 	}
 	return &deletedUser, nil
 }
