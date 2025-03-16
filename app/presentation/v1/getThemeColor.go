@@ -4,16 +4,13 @@ import (
 	"encoding/json"
 	"net/http"
 	colorApp "picolor-backend/app/application/color"
-	auth "picolor-backend/app/domain/auth"
+	"picolor-backend/app/domain/auth"
 	"picolor-backend/app/domain/color"
+	"strconv"
 )
 
 type GetThemeColorsResponse struct {
 	ThemeColors []color.ColorCode `json:"themeColors"`
-}
-
-type GetThemeColorsParams struct {
-	RoomID auth.RoomID `json:"roomID"`
 }
 
 type GetThemeColors struct {
@@ -24,9 +21,16 @@ func NewGetThemeColor(service *colorApp.ColorServiceImpl) *GetThemeColors {
 	return &GetThemeColors{service: service}
 }
 
-func (g *GetThemeColors) GetThemeColor(params GetThemeColorsParams) http.HandlerFunc {
+func (g *GetThemeColors) GetThemeColorHandler() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		themeColors, err := g.service.GetThemeColor(params.RoomID)
+		roomIDStr := r.URL.Query().Get("roomID")
+		roomID,err := strconv.Atoi(roomIDStr)
+		if err != nil {
+			w.WriteHeader(http.StatusBadRequest)
+			return
+		}
+
+		themeColors, err := g.service.GetThemeColor(auth.RoomID(roomID))
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			return
