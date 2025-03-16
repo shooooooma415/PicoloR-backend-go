@@ -37,7 +37,7 @@ func (q *PostRepositoryImpl) DeletePostByRoomID(roomID auth.RoomID) (*auth.RoomI
 	return &deletedRoomID, nil
 }
 
-func (q *PostRepositoryImpl) GetPostsByRoomID(roomID auth.RoomID) ([]post.Post, error) {
+func (q *PostRepositoryImpl) FindPostsByRoomID(roomID auth.RoomID) ([]post.Post, error) {
 	query := `
 		SELECT user_id, room_id, color_id, rank, image, posted_time 
 		FROM posts
