@@ -5,8 +5,9 @@ import (
 	"net/http"
 
 	authApp "picolor-backend/app/application/auth"
-	roomApp "picolor-backend/app/application/room"
 	colorApp "picolor-backend/app/application/color"
+	roomApp "picolor-backend/app/application/room"
+	postApp "picolor-backend/app/application/post"
 	repo "picolor-backend/app/infrastructure/postgresql/repository"
 	utils "picolor-backend/app/infrastructure/postgresql/utils"
 	v1 "picolor-backend/app/server/v1"
@@ -29,6 +30,7 @@ func main() {
 	authService := authApp.NewAuthService(authRepo, roomRepo)
 	roomService := roomApp.NewRoomService(authRepo, roomRepo, postRepo)
 	colorService := colorApp.NewColorService(colorRepo)
+	postService := postApp.NewPostService(postRepo,authRepo)
 
 	router := mux.NewRouter()
 
@@ -36,7 +38,7 @@ func main() {
 	v1.ControllerRouter(controllerRouter, authService, colorService)
 
 	hostRouter := router.PathPrefix("/host").Subrouter()
-	v1.HostRouter(hostRouter, roomService)
+	v1.HostRouter(hostRouter, roomService, postService)
 
 	log.Println("Server is running on :8000")
 	if err := http.ListenAndServe(":8000", router); err != nil {

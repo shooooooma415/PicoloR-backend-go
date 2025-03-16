@@ -10,7 +10,7 @@ type PostServiceImpl struct {
 	authRepo auth.AuthRepository
 }
 
-func NewAuthService(postRepo post.PostRepository, authRepo auth.AuthRepository) *PostServiceImpl {
+func NewPostService(postRepo post.PostRepository, authRepo auth.AuthRepository) *PostServiceImpl {
 	return &PostServiceImpl{
 		postRepo: postRepo,
 		authRepo: authRepo,
