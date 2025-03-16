@@ -9,5 +9,8 @@ import (
 
 func HostRouter(router *mux.Router, service *roomApp.RoomServiceImpl) {
 	postRoom := v1.NewPostRoom(service)
+	deleteRoom := v1.NewDeleteRoom(service)
+
 	router.HandleFunc("/room", postRoom.PostRoomHandler()).Methods("POST")
+	router.HandleFunc("/room", deleteRoom.DeleteRoomHandler()).Methods("DELETE")
 }

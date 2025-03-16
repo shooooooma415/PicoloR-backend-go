@@ -24,7 +24,7 @@ func NewDeleteRoom(service *roomApp.RoomServiceImpl) *DeleteRoom {
 	return &DeleteRoom{service: service}
 }
 
-func (pc *PostRoom) DeleteRoomHandler() http.HandlerFunc {
+func (pc *DeleteRoom) DeleteRoomHandler() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var req DeleteRoomParams
 		roomID, err := pc.service.DeleteRoom(req.RoomID)

@@ -70,7 +70,7 @@ func (q *RoomRepositoryImpl) CreateRoomMember(user room.RoomMember) (*room.RoomM
 	return &createdRoomMember, nil
 }
 
-func (q *RoomRepositoryImpl) DeleteRoomMember(userID auth.UserID) (*room.RoomMember, error) {
+func (q *RoomRepositoryImpl) DeleteRoomMemberByUserID(userID auth.UserID) (*room.RoomMember, error) {
 	query := `
 		DELETE FROM room_members
 		WHERE user_id = $1
@@ -95,7 +95,7 @@ func (q *RoomRepositoryImpl) DeleteRoomMember(userID auth.UserID) (*room.RoomMem
 
 func (q *RoomRepositoryImpl) DeleteRoom(roomID auth.RoomID) (*auth.RoomID, error) {
 	query := `
-		DELETE FROM room
+		DELETE FROM rooms
 		WHERE id = $1
 		RETURNING id
 		`

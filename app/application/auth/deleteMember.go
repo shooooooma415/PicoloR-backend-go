@@ -7,7 +7,7 @@ import (
 
 func (c *AuthServiceImpl) DeleteMember(deleteInfo auth.DeleteUser) (*auth.UserID, error) {
 
-	_, err := c.roomRepo.DeleteRoomMember(deleteInfo.UserID)
+	_, err := c.roomRepo.DeleteRoomMemberByUserID(deleteInfo.UserID)
 
 	if err != nil {
 		return nil, fmt.Errorf("failed to delete user:%w", err)
