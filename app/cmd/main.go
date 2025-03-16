@@ -22,9 +22,10 @@ func main() {
 
 	authRepo := repo.NewAuthRepository(db)
 	roomRepo := repo.NewRoomRepository(db)
+	postRepo := repo.NewPostRepository(db)
 
 	authService := authApp.NewAuthService(authRepo, roomRepo)
-	roomService := roomApp.NewRoomService(authRepo, roomRepo)
+	roomService := roomApp.NewRoomService(authRepo, roomRepo, postRepo)
 
 	router := mux.NewRouter()
 
@@ -33,7 +34,6 @@ func main() {
 
 	hostRouter := router.PathPrefix("/host").Subrouter()
 	v1.HostRouter(hostRouter, roomService)
-
 
 	log.Println("Server is running on :8000")
 	if err := http.ListenAndServe(":8000", router); err != nil {
