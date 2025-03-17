@@ -5,47 +5,48 @@ import (
 	"net/http"
 	authApp "picolor-backend/app/application/auth"
 	auth "picolor-backend/app/domain/auth"
+	room "picolor-backend/app/domain/room"
 	"picolor-backend/app/infrastructure/postgresql/utils"
 )
 
-type PostUserParams struct {
-	UserName auth.UserName `json:"userName"`
-}
-
-type PostUserResponse struct {
+type PostMemberParams struct {
+	RoomID auth.RoomID `json:"roomID"`
 	UserID auth.UserID `json:"userID"`
 }
 
-type PostUser struct {
+type PostMemberResponse struct {
+	UserID auth.UserID `json:"userID"`
+}
+
+type PostMember struct {
 	service *authApp.AuthServiceImpl
 }
 
-func NewPostUser(service *authApp.AuthServiceImpl) *PostUser {
-	return &PostUser{service: service}
+func NewPostMember(service *authApp.AuthServiceImpl) *PostMember {
+	return &PostMember{service: service}
 }
 
-func (pc *PostUser) PostUserHandler() http.HandlerFunc {
+func (pc *PostMember) PostMemberHandler() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req PostUserParams
+		var req PostMemberParams
 		if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
 			http.Error(w, "Invalid request payload", http.StatusBadRequest)
 			return
 		}
 
+		joinRoom := room.RoomMember{
+			RoomID: req.RoomID,
+			UserID: req.UserID,
+		}
 
-		userID, err := pc.service.CreateUser(req.UserName)
+		_, err := pc.service.RegisterMember(joinRoom)
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			json.NewEncoder(w).Encode(utils.NewErrorResponse(err.Error()))
 			return
 		}
 
-		res := PostUserResponse{
-			UserID: *userID,
-		}
-
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
-		json.NewEncoder(w).Encode(res)
 	}
 }
