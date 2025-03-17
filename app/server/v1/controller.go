@@ -16,6 +16,6 @@ func ControllerRouter(router *mux.Router, authService *authApp.AuthServiceImpl, 
 
 	router.HandleFunc("/user", postUser.PostUserHandler()).Methods("POST")
 	router.HandleFunc("/room", postMember.PostMemberHandler()).Methods("POST")
-	router.HandleFunc("/room", deleteController.DeleteControllerHandler()).Methods("DELETE")
+	router.HandleFunc("/user", deleteController.DeleteControllerHandler()).Methods("DELETE")
 	router.HandleFunc("/colors", getThemeColors.GetThemeColorHandler()).Methods("GET")
 }
