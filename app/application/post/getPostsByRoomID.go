@@ -11,7 +11,7 @@ func (s *PostServiceImpl) GetPostsByRoomID(roomID auth.RoomID) ([]post.GetPost, 
 
 	for _, p := range posts {
 		user, _ := s.authRepo.FindUserByUserID(p.UserID)
-		color, _ := s.colorRepo.GetThemeColorByColorID(p.ColorID)
+		color, _ := s.colorRepo.FindThemeColorByColorID(p.ColorID)
 		getPosts = append(getPosts, post.GetPost{
 			UserName:   user.Name,
 			Rank:       p.Rank,

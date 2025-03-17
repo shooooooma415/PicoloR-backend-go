@@ -5,12 +5,16 @@ import (
 	"net/http"
 	colorApp "picolor-backend/app/application/color"
 	"picolor-backend/app/domain/auth"
-	"picolor-backend/app/domain/color"
 	"strconv"
 )
 
+type ColorRes struct{
+	ColorId   auth.ColorID
+	ColorCode auth.ColorCode
+}
+
 type GetThemeColorsResponse struct {
-	ThemeColors []color.ColorCode `json:"themeColors"`
+	ThemeColors []ColorRes `json:"themeColors"`
 }
 
 type GetThemeColors struct {
@@ -24,20 +28,24 @@ func NewGetThemeColor(service *colorApp.ColorServiceImpl) *GetThemeColors {
 func (g *GetThemeColors) GetThemeColorHandler() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		roomIDStr := r.URL.Query().Get("roomID")
-		roomID,err := strconv.Atoi(roomIDStr)
+		roomID, err := strconv.Atoi(roomIDStr)
 		if err != nil {
 			w.WriteHeader(http.StatusBadRequest)
 			return
 		}
 
-		themeColors, err := g.service.GetThemeColor(auth.RoomID(roomID))
+		themeColors, err := g.service.GetThemeColors(auth.RoomID(roomID))
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			return
 		}
 
-		res := GetThemeColorsResponse{
-			ThemeColors: themeColors,
+		var res GetThemeColorsResponse
+		for _, themeColor := range themeColors {
+			res.ThemeColors = append(res.ThemeColors, ColorRes{
+				ColorId:   themeColor.ColorId,
+				ColorCode: themeColor.ColorCode,
+			})
 		}
 
 		w.Header().Set("Content-Type", "application/json")
