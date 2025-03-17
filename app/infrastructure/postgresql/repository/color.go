@@ -66,3 +66,25 @@ func (q *ColorRepositoryImpl) GetThemeColorsByRoomID(roomID auth.RoomID) ([]colo
 	}
 	return colors, nil
 }
+
+func (q *ColorRepositoryImpl) GetThemeColorByColorID(colorID color.ColorID) (*color.Color, error) {
+	query := `
+		SELECT color
+		FROM room_colors
+		WHERE id = $1
+		`
+
+	var themeColor color.Color
+
+	err := q.db.QueryRow(
+		query,
+		colorID,
+	).Scan(
+		&themeColor.Color,
+	)
+
+	if err != nil {
+		return nil, fmt.Errorf("failed to get theme color:%w", err)
+	}
+	return &themeColor, nil
+}
