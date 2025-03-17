@@ -10,11 +10,6 @@ type User struct {
 	Name UserName
 }
 
-type JoinUser struct {
-	RoomID   RoomID
-	UserName UserName
-}
-
 type DeleteUser struct {
 	RoomID RoomID
 	UserID UserID

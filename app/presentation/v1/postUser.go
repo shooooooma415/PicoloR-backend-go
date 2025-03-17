@@ -8,44 +8,39 @@ import (
 	"picolor-backend/app/infrastructure/postgresql/utils"
 )
 
-type PostControllerParams struct {
-	RoomID   auth.RoomID   `json:"roomID"`
+type PostUserParams struct {
 	UserName auth.UserName `json:"userName"`
 }
 
-type PostControllerResponse struct {
+type PostUserResponse struct {
 	UserID auth.UserID `json:"userID"`
 }
 
-type PostController struct {
+type PostUser struct {
 	service *authApp.AuthServiceImpl
 }
 
-func NewPostController(service *authApp.AuthServiceImpl) *PostController {
-	return &PostController{service: service}
+func NewUserController(service *authApp.AuthServiceImpl) *PostUser {
+	return &PostUser{service: service}
 }
 
-func (pc *PostController) PostControllerHandler() http.HandlerFunc {
+func (pc *PostUser) PostUserHandler() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req PostControllerParams
+		var req PostUserParams
 		if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
 			http.Error(w, "Invalid request payload", http.StatusBadRequest)
 			return
 		}
 
-		createInfo := authApp.CreateUserAndJoinRoom{
-			RoomID:   req.RoomID,
-			UserName: req.UserName,
-		}
 
-		userID, err := pc.service.CreateUserAndJoinRoom(createInfo)
+		userID, err := pc.service.CreateUser(req.UserName)
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			json.NewEncoder(w).Encode(utils.NewErrorResponse(err.Error()))
 			return
 		}
 
-		res := PostControllerResponse{
+		res := PostUserResponse{
 			UserID: *userID,
 		}
 
