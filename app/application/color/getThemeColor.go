@@ -7,10 +7,11 @@ import (
 )
 
 func (c *ColorServiceImpl) GetThemeColor(roomID auth.RoomID) ([]color.Color, error) {
-	ColorIDs, err := c.colorRepo.GetColorIDsByRoomID(roomID)
-	if err != nil {
-		fmt.Println(err)
-		return nil, err
+	ColorIDs, _ := c.colorRepo.FindColorIDsByRoomID(roomID)
+	var ThemeColors []color.Color
+	for _, colorID := range ColorIDs {
+		color, _ := c.colorRepo.FindThemeColorByColorID(colorID)
+		ThemeColors = append(ThemeColors, *color)
 	}
-	return themeColors, nil
+	return ThemeColors, nil
 }
