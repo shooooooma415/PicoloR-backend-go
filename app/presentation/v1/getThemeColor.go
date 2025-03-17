@@ -43,7 +43,7 @@ func (g *GetThemeColors) GetThemeColorHandler() http.HandlerFunc {
 		var res GetThemeColorsResponse
 		for _, themeColor := range themeColors {
 			res.ThemeColors = append(res.ThemeColors, ColorRes{
-				ColorId:   themeColor.ColorId,
+				ColorId:   themeColor.ColorID,
 				ColorCode: themeColor.ColorCode,
 			})
 		}
