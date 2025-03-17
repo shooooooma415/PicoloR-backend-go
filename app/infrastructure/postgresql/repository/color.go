@@ -69,7 +69,7 @@ func (q *ColorRepositoryImpl) FindThemeColorsByRoomID(roomID auth.RoomID) ([]col
 
 func (q *ColorRepositoryImpl) FindThemeColorByColorID(colorID auth.ColorID) (*color.Color, error) {
 	query := `
-		SELECT color
+		SELECT color,id
 		FROM room_colors
 		WHERE id = $1
 		`
@@ -81,6 +81,7 @@ func (q *ColorRepositoryImpl) FindThemeColorByColorID(colorID auth.ColorID) (*co
 		colorID,
 	).Scan(
 		&themeColor.ColorCode,
+		&themeColor.ColorID,
 	)
 
 	if err != nil {
