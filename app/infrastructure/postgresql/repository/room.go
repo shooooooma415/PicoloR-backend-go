@@ -136,3 +136,55 @@ func (q *RoomRepositoryImpl) DeleteRoomMembersByRoomID(roomID auth.RoomID) (*aut
 	}
 	return &deletedRoomID, nil
 }
+
+func (q *RoomRepositoryImpl) UpdateIsStart(roomID auth.RoomID) (*room.Room, error) {
+	query := `
+		UPDATE rooms
+		SET is_start = true
+		WHERE id = $1
+		RETURNING id, is_start, is_finish, start_at
+		`
+
+	var updatedRoom room.Room
+
+	err := q.db.QueryRow(
+		query,
+		roomID,
+	).Scan(
+		&updatedRoom.RoomID,
+		&updatedRoom.IsStart,
+		&updatedRoom.IsFinish,
+		&updatedRoom.StartAt,
+	)
+
+	if err != nil {
+		return nil, fmt.Errorf("failed to update is_start:%w", err)
+	}
+	return &updatedRoom, nil
+}
+
+func (q *RoomRepositoryImpl) UpdateIsFinish(roomID auth.RoomID) (*room.Room, error) {
+	query := `
+		UPDATE rooms
+		SET is_finish = true
+		WHERE id = $1
+		RETURNING id, is_start, is_finish, start_at
+		`
+
+	var updatedRoom room.Room
+
+	err := q.db.QueryRow(
+		query,
+		roomID,
+	).Scan(
+		&updatedRoom.RoomID,
+		&updatedRoom.IsStart,
+		&updatedRoom.IsFinish,
+		&updatedRoom.StartAt,
+	)
+
+	if err != nil {
+		return nil, fmt.Errorf("failed to update is_finish:%w", err)
+	}
+	return &updatedRoom, nil
+}
