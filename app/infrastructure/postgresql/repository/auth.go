@@ -14,7 +14,7 @@ func NewAuthRepository(db *sql.DB) *AuthRepositoryImpl {
 	return &AuthRepositoryImpl{db: db}
 }
 
-func (q *AuthRepositoryImpl) CreateUser(joinUser auth.JoinUser) (*auth.User, error) {
+func (q *AuthRepositoryImpl) CreateUser(userName auth.UserName) (*auth.User, error) {
 	query := `
 		INSERT INTO users (name) 
 		VALUES ($1)
@@ -25,7 +25,7 @@ func (q *AuthRepositoryImpl) CreateUser(joinUser auth.JoinUser) (*auth.User, err
 		
 	err := q.db.QueryRow(
 		query,
-		joinUser.UserName,
+		userName,
 	).Scan(
 		&createdUser.ID,
 		&createdUser.Name,

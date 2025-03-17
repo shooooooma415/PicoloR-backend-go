@@ -7,7 +7,7 @@ import (
 
 func (c *RoomServiceImpl) ResetRoom(roomID auth.RoomID) (*auth.RoomID, error) {
 	var wg sync.WaitGroup
-	wg.Add(2)
+	wg.Add(3)
 
 	var deletedRoomID *auth.RoomID
 
@@ -19,6 +19,11 @@ func (c *RoomServiceImpl) ResetRoom(roomID auth.RoomID) (*auth.RoomID, error) {
 	go func() {
 		defer wg.Done()
 		deletedRoomID, _ = c.postRepo.DeletePostByRoomID(roomID)
+	}()
+
+	go func() {
+		defer wg.Done()
+		deletedRoomID, _ = c.colorRepo.DeleteThemeColors(roomID)
 	}()
 
 	wg.Wait()

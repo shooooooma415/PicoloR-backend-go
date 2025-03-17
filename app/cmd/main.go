@@ -29,7 +29,7 @@ func main() {
 	colorRepo := repo.NewColorRepository(db)
 
 	authService := authApp.NewAuthService(authRepo, roomRepo)
-	roomService := roomApp.NewRoomService(authRepo, roomRepo, postRepo)
+	roomService := roomApp.NewRoomService(authRepo, roomRepo, postRepo, colorRepo)
 	colorService := colorApp.NewColorService(colorRepo)
 	postService := postApp.NewPostService(postRepo, authRepo, colorRepo)
 
