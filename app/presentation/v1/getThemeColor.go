@@ -8,8 +8,13 @@ import (
 	"strconv"
 )
 
+type ColorRes struct{
+	ColorId   auth.ColorID
+	ColorCode auth.ColorCode
+}
+
 type GetThemeColorsResponse struct {
-	ThemeColors []auth.ColorCode `json:"themeColors"`
+	ThemeColors []ColorRes `json:"themeColors"`
 }
 
 type GetThemeColors struct {
@@ -29,14 +34,18 @@ func (g *GetThemeColors) GetThemeColorHandler() http.HandlerFunc {
 			return
 		}
 
-		themeColors, err := g.service.GetThemeColor(auth.RoomID(roomID))
+		themeColors, err := g.service.GetThemeColors(auth.RoomID(roomID))
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			return
 		}
 
-		res := GetThemeColorsResponse{
-			ThemeColors: themeColors,
+		var res GetThemeColorsResponse
+		for _, themeColor := range themeColors {
+			res.ThemeColors = append(res.ThemeColors, ColorRes{
+				ColorId:   themeColor.ColorId,
+				ColorCode: themeColor.ColorCode,
+			})
 		}
 
 		w.Header().Set("Content-Type", "application/json")
