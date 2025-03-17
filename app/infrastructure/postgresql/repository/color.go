@@ -37,7 +37,7 @@ func (q *ColorRepositoryImpl) DeleteThemeColors(roomID auth.RoomID) (*auth.RoomI
 	return &deletedRoomID, nil
 }
 
-func (q *ColorRepositoryImpl) GetThemeColors(roomID auth.RoomID) ([]color.Color, error) {
+func (q *ColorRepositoryImpl) GetThemeColorsByRoomID(roomID auth.RoomID) ([]color.Color, error) {
 	query := `
 		SELECT color
 		FROM room_colors
@@ -57,7 +57,7 @@ func (q *ColorRepositoryImpl) GetThemeColors(roomID auth.RoomID) ([]color.Color,
 	for rows.Next() {
 		var color color.Color
 		err := rows.Scan(
-			&color.Color,
+			&color.ColorCode,
 		)
 		if err != nil {
 			return nil, fmt.Errorf("failed to scan theme colors:%w", err)
@@ -65,4 +65,26 @@ func (q *ColorRepositoryImpl) GetThemeColors(roomID auth.RoomID) ([]color.Color,
 		colors = append(colors, color)
 	}
 	return colors, nil
+}
+
+func (q *ColorRepositoryImpl) GetThemeColorByColorID(colorID color.ColorID) (*color.Color, error) {
+	query := `
+		SELECT color
+		FROM room_colors
+		WHERE id = $1
+		`
+
+	var themeColor color.Color
+
+	err := q.db.QueryRow(
+		query,
+		colorID,
+	).Scan(
+		&themeColor.ColorCode,
+	)
+
+	if err != nil {
+		return nil, fmt.Errorf("failed to get theme color:%w", err)
+	}
+	return &themeColor, nil
 }

@@ -20,6 +20,7 @@ type GetPost struct {
 	UserName   auth.UserName
 	Rank       int
 	RoomID     auth.RoomID
+	Color      color.ColorCode
 	Image      Image
 	PostedTime string
 }
