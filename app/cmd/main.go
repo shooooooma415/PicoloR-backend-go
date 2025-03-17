@@ -42,10 +42,12 @@ func main() {
 	v1.HostRouter(hostRouter, roomService, postService)
 
 	corsMiddleware := handlers.CORS(
-		handlers.AllowedOrigins([]string{"http://localhost:9000", "https://your-frontend-domain.com"}),
-		handlers.AllowedMethods([]string{"GET", "POST", "PUT", "DELETE", "OPTIONS"}),
-		handlers.AllowedHeaders([]string{"Content-Type", "Authorization"}),
-		handlers.AllowCredentials(),
+		handlers.AllowedOrigins([]string{"*"}),                   
+		handlers.AllowedMethods([]string{"*"}),                    
+		handlers.AllowedHeaders([]string{"*"}),                    
+		handlers.AllowCredentials(),                               
+		handlers.ExposedHeaders([]string{"*"}),                    
+		handlers.MaxAge(600),              
 	)
 
 	log.Println("Server is running on :8000")
