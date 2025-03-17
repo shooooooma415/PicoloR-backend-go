@@ -18,8 +18,8 @@ type PostStartGame struct {
 	service *roomApp.RoomServiceImpl
 }
 
-func NewPostStartGame(service *roomApp.RoomServiceImpl) *PostRoom {
-	return &PostRoom{service: service}
+func NewPostStartGame(service *roomApp.RoomServiceImpl) *PostStartGame {
+	return &PostStartGame{service: service}
 }
 
 func (pc *PostStartGame) PostStartGameHandler() http.HandlerFunc {

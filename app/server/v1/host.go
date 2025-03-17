@@ -13,9 +13,11 @@ func HostRouter(router *mux.Router, roomService *roomApp.RoomServiceImpl, postSe
 	deleteRoom := v1.NewDeleteRoom(roomService)
 	deleteRoomInfo := v1.NewDeleteRoomInfo(roomService)
 	getResult := v1.NewGetResult(postService)
+	postStartGame := v1.NewPostStartGame(roomService)
 
 	router.HandleFunc("/room", postRoom.PostRoomHandler()).Methods("POST")
 	router.HandleFunc("/room", deleteRoom.DeleteRoomHandler()).Methods("DELETE")
 	router.HandleFunc("/room/reset", deleteRoomInfo.DeleteRoomInfoHandler()).Methods("DELETE")
 	router.HandleFunc("/result", getResult.GetResultHandler()).Methods("GET")
+	router.HandleFunc("/room/start", postStartGame.PostStartGameHandler()).Methods("POST")
 }
