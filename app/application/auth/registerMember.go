@@ -6,27 +6,17 @@ import (
 	"picolor-backend/app/domain/room"
 )
 
-
-type CreateUserAndJoinRoom struct {
-	RoomID   auth.RoomID
-	UserName auth.UserName
+type RegisterMember struct {
+	RoomID auth.RoomID
+	UserID auth.UserID
 }
 
-func (c *AuthServiceImpl) CreateUserAndJoinRoom(createInfo CreateUserAndJoinRoom) (*auth.UserID, error) {
-	joinUser := auth.JoinUser{
-		RoomID:   createInfo.RoomID,
-		UserName: createInfo.UserName,
-	}
+func (c *AuthServiceImpl) RegisterMember(registerInfo RegisterMember) (*auth.UserID, error) {
 
-	createdUser, err := c.authRepo.CreateUser(joinUser)
-
-	if err != nil {
-		return nil, fmt.Errorf("failed to create user:%w", err)
-	}
 
 	joinRoom := room.RoomMember{
-		RoomID: createInfo.RoomID,
-		UserID: createdUser.ID,
+		RoomID: registerInfo.RoomID,
+		UserID: registerInfo.UserID,
 	}
 
 	roomMember, err := c.roomRepo.CreateRoomMember(joinRoom)
