@@ -8,6 +8,7 @@ type RoomRepository interface {
 	DeleteRoomMembersByRoomID(roomID auth.RoomID) (*auth.RoomID, error)
 	UpdateIsStart(roomId auth.RoomID) (*Room, error)
 	UpdateIsFinish(roomId auth.RoomID) (*Room, error)
+	CreateStartAt(room Room) (*Room, error)
 	// GetRoom(roomId auth.RoomID) (*Room, error)
 	// GetIsStart(roomId auth.RoomID) (*Room, error)
 	// GetIsFinish(roomId auth.RoomID) (*Room, error)

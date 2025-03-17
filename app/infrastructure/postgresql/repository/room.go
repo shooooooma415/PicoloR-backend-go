@@ -188,3 +188,29 @@ func (q *RoomRepositoryImpl) UpdateIsFinish(roomID auth.RoomID) (*room.Room, err
 	}
 	return &updatedRoom, nil
 }
+
+func (q *RoomRepositoryImpl) CreateStartAt(rm room.Room) (*room.Room, error) {
+	query := `
+		INSERT INTO rooms (start_at)
+		VALUES ($1)
+		RETURNING id, is_start, is_finish, start_at
+		`
+
+	var updatedRoom room.Room
+
+	err := q.db.QueryRow(
+		query,
+		rm.StartAt,
+		rm.RoomID,
+	).Scan(
+		&updatedRoom.RoomID,
+		&updatedRoom.IsStart,
+		&updatedRoom.IsFinish,
+		&updatedRoom.StartAt,
+	)
+
+	if err != nil {
+		return nil, fmt.Errorf("failed to update start_at:%w", err)
+	}
+	return &updatedRoom, nil
+}
