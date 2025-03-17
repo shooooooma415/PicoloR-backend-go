@@ -88,3 +88,32 @@ func (q *ColorRepositoryImpl) GetThemeColorByColorID(colorID auth.ColorID) (*col
 	}
 	return &themeColor, nil
 }
+
+func (q *ColorRepositoryImpl) GetColorIDsByRoomID(roomID auth.RoomID) ([]auth.ColorID, error) {
+	query := `
+		SELECT id
+		FROM room_colors
+		WHERE room_id = $1
+		`
+
+	rows, err := q.db.Query(
+		query,
+		roomID,
+	)
+	if err != nil {
+		return nil, fmt.Errorf("failed to get color ids:%w", err)
+	}
+
+	var colorIDs []auth.ColorID
+	for rows.Next() {
+		var colorID auth.ColorID
+		err := rows.Scan(
+			&colorID,
+		)
+		if err != nil {
+			return nil, fmt.Errorf("failed to scan color ids:%w", err)
+		}
+		colorIDs = append(colorIDs, colorID)
+	}
+	return colorIDs, nil
+}
