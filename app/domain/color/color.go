@@ -2,17 +2,16 @@ package color
 
 import "picolor-backend/app/domain/auth"
 
-type ColorCode string
 
-type ColorID int
+
 
 type Color struct {
-	ColorId   ColorID
-	ColorCode ColorCode
+	ColorId   auth.ColorID
+	ColorCode auth.ColorCode
 	RoomId    auth.RoomID
 }
 
 type CreateColor struct {
-	ColorCodes []ColorCode
+	ColorCodes []auth.ColorCode
 	RoomId     auth.RoomID
 }

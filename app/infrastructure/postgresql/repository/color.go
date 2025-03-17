@@ -67,7 +67,7 @@ func (q *ColorRepositoryImpl) GetThemeColorsByRoomID(roomID auth.RoomID) ([]colo
 	return colors, nil
 }
 
-func (q *ColorRepositoryImpl) GetThemeColorByColorID(colorID color.ColorID) (*color.Color, error) {
+func (q *ColorRepositoryImpl) GetThemeColorByColorID(colorID auth.ColorID) (*color.Color, error) {
 	query := `
 		SELECT color
 		FROM room_colors
