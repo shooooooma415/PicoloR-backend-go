@@ -13,7 +13,6 @@ import (
 	v1 "picolor-backend/app/server/v1"
 
 	"github.com/gorilla/mux"
-	"github.com/gorilla/handlers"
 	"github.com/rs/cors"
 )
 
