@@ -18,21 +18,20 @@ func NewRoomRepository(db *sql.DB) *RoomRepositoryImpl {
 func (q *RoomRepositoryImpl) CreateRoom(createRoom room.Room) (*room.Room, error) {
 	query := `
 		INSERT INTO rooms (is_start, is_finish)
-		VALUES ($1, $2, $3)
-		RETURNING id, is_start, is_finish, start_at
+		VALUES ($1, $2)
+		RETURNING id, is_start, is_finish
 	`
 
 	var createdRoom room.Room
 
 	err := q.db.QueryRow(
 		query,
+		createRoom.IsStart,
 		createRoom.IsFinish,
-		createRoom.StartAt,
 	).Scan(
 		&createdRoom.RoomID,
 		&createdRoom.IsStart,
 		&createdRoom.IsFinish,
-		&createdRoom.StartAt,
 	)
 
 	if err != nil {
