@@ -14,7 +14,7 @@ func (c *ColorServiceImpl) GetThemeColor(roomID auth.RoomID) ([]color.ColorCode,
 	themeColors := make([]color.ColorCode, len(colors))
 
 	for i, col := range colors {
-		themeColors[i] = col.Color
+		themeColors[i] = col.ColorCode
 	}
 	return themeColors, nil
 }

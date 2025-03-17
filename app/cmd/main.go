@@ -31,7 +31,7 @@ func main() {
 	authService := authApp.NewAuthService(authRepo, roomRepo)
 	roomService := roomApp.NewRoomService(authRepo, roomRepo, postRepo)
 	colorService := colorApp.NewColorService(colorRepo)
-	postService := postApp.NewPostService(postRepo, authRepo)
+	postService := postApp.NewPostService(postRepo, authRepo, colorRepo)
 
 	router := mux.NewRouter()
 

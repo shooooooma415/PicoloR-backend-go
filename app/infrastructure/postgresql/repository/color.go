@@ -57,7 +57,7 @@ func (q *ColorRepositoryImpl) GetThemeColorsByRoomID(roomID auth.RoomID) ([]colo
 	for rows.Next() {
 		var color color.Color
 		err := rows.Scan(
-			&color.Color,
+			&color.ColorCode,
 		)
 		if err != nil {
 			return nil, fmt.Errorf("failed to scan theme colors:%w", err)
@@ -80,7 +80,7 @@ func (q *ColorRepositoryImpl) GetThemeColorByColorID(colorID color.ColorID) (*co
 		query,
 		colorID,
 	).Scan(
-		&themeColor.Color,
+		&themeColor.ColorCode,
 	)
 
 	if err != nil {
