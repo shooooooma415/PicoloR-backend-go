@@ -37,7 +37,7 @@ func (q *ColorRepositoryImpl) DeleteThemeColors(roomID auth.RoomID) (*auth.RoomI
 	return &deletedRoomID, nil
 }
 
-func (q *ColorRepositoryImpl) GetThemeColors(roomID auth.RoomID) ([]color.Color, error) {
+func (q *ColorRepositoryImpl) GetThemeColorsByRoomID(roomID auth.RoomID) ([]color.Color, error) {
 	query := `
 		SELECT color
 		FROM room_colors

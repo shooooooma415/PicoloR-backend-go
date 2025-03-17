@@ -7,7 +7,7 @@ import (
 )
 
 func (c *ColorServiceImpl) GetThemeColor(roomID auth.RoomID) ([]color.ColorCode, error) {
-	colors, err := c.colorRepo.GetThemeColors(roomID)
+	colors, err := c.colorRepo.GetThemeColorsByRoomID(roomID)
 	if err != nil {
 		return nil, fmt.Errorf("failed to get theme colors: %w", err)
 	}
