@@ -37,7 +37,7 @@ func (q *ColorRepositoryImpl) DeleteThemeColors(roomID auth.RoomID) (*auth.RoomI
 	return &deletedRoomID, nil
 }
 
-func (q *ColorRepositoryImpl) GetThemeColorsByRoomID(roomID auth.RoomID) ([]color.Color, error) {
+func (q *ColorRepositoryImpl) FindThemeColorsByRoomID(roomID auth.RoomID) ([]color.Color, error) {
 	query := `
 		SELECT color
 		FROM room_colors
@@ -67,7 +67,7 @@ func (q *ColorRepositoryImpl) GetThemeColorsByRoomID(roomID auth.RoomID) ([]colo
 	return colors, nil
 }
 
-func (q *ColorRepositoryImpl) GetThemeColorByColorID(colorID auth.ColorID) (*color.Color, error) {
+func (q *ColorRepositoryImpl) FindThemeColorByColorID(colorID auth.ColorID) (*color.Color, error) {
 	query := `
 		SELECT color
 		FROM room_colors
@@ -89,7 +89,7 @@ func (q *ColorRepositoryImpl) GetThemeColorByColorID(colorID auth.ColorID) (*col
 	return &themeColor, nil
 }
 
-func (q *ColorRepositoryImpl) GetColorIDsByRoomID(roomID auth.RoomID) ([]auth.ColorID, error) {
+func (q *ColorRepositoryImpl) FindColorIDsByRoomID(roomID auth.RoomID) ([]auth.ColorID, error) {
 	query := `
 		SELECT id
 		FROM room_colors

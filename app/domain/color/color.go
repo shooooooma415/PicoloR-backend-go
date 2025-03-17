@@ -2,9 +2,6 @@ package color
 
 import "picolor-backend/app/domain/auth"
 
-
-
-
 type Color struct {
 	ColorId   auth.ColorID
 	ColorCode auth.ColorCode

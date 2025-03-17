@@ -5,8 +5,8 @@ import (
 )
 
 type ColorRepository interface {
-	GetThemeColorsByRoomID(roomId auth.RoomID) ([]Color, error)
-	GetColorIDsByRoomID(roomId auth.RoomID) ([]auth.ColorID, error)
-	GetThemeColorByColorID(colorId auth.ColorID) (*Color, error)
+	FindThemeColorsByRoomID(roomId auth.RoomID) ([]Color, error)
+	FindColorIDsByRoomID(roomId auth.RoomID) ([]auth.ColorID, error)
+	FindThemeColorByColorID(colorId auth.ColorID) (*Color, error)
 	DeleteThemeColors(roomId auth.RoomID) (*auth.RoomID, error)
 }

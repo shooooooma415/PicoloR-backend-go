@@ -2,18 +2,15 @@ package color
 
 import (
 	"fmt"
+	"picolor-backend/app/domain/color"
 	"picolor-backend/app/domain/auth"
 )
 
-func (c *ColorServiceImpl) GetThemeColor(roomID auth.RoomID) ([]auth.ColorCode, error) {
-	colors, err := c.colorRepo.GetThemeColorsByRoomID(roomID)
+func (c *ColorServiceImpl) GetThemeColor(roomID auth.RoomID) ([]color.Color, error) {
+	ColorIDs, err := c.colorRepo.GetColorIDsByRoomID(roomID)
 	if err != nil {
-		return nil, fmt.Errorf("failed to get theme colors: %w", err)
-	}
-	themeColors := make([]auth.ColorCode, len(colors))
-
-	for i, col := range colors {
-		themeColors[i] = col.ColorCode
+		fmt.Println(err)
+		return nil, err
 	}
 	return themeColors, nil
 }
