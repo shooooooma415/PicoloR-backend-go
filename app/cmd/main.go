@@ -14,6 +14,7 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/gorilla/handlers"
+	"github.com/rs/cors"
 )
 
 func main() {
@@ -41,17 +42,17 @@ func main() {
 	hostRouter := router.PathPrefix("/host").Subrouter()
 	v1.HostRouter(hostRouter, roomService, postService)
 
-	corsMiddleware := handlers.CORS(
-		handlers.AllowedOrigins([]string{"*"}),                   
-		handlers.AllowedMethods([]string{"*"}),                    
-		handlers.AllowedHeaders([]string{"*"}),                    
-		handlers.AllowCredentials(),                               
-		handlers.ExposedHeaders([]string{"*"}),                    
-		handlers.MaxAge(600),              
-	)
+	c := cors.New(cors.Options{
+		AllowedOrigins:   []string{"*"},
+		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowedHeaders:   []string{"Authorization", "Content-Type"},
+		AllowCredentials: true,
+	})
+
+	handler := c.Handler(router)
 
 	log.Println("Server is running on :8000")
-	if err := http.ListenAndServe(":8000", corsMiddleware(router)); err != nil {
+	if err := http.ListenAndServe(":8000", handler); err != nil {
 		log.Fatalf("Failed to start server: %v", err)
 	}
 }
