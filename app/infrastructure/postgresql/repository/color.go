@@ -37,7 +37,7 @@ func (q *ColorRepositoryImpl) DeleteThemeColors(roomID auth.RoomID) (*auth.RoomI
 	return &deletedRoomID, nil
 }
 
-func (q *ColorRepositoryImpl) GetThemeColorsByRoomID(roomID auth.RoomID) ([]color.Color, error) {
+func (q *ColorRepositoryImpl) FindThemeColorsByRoomID(roomID auth.RoomID) ([]color.Color, error) {
 	query := `
 		SELECT color
 		FROM room_colors
@@ -67,9 +67,9 @@ func (q *ColorRepositoryImpl) GetThemeColorsByRoomID(roomID auth.RoomID) ([]colo
 	return colors, nil
 }
 
-func (q *ColorRepositoryImpl) GetThemeColorByColorID(colorID color.ColorID) (*color.Color, error) {
+func (q *ColorRepositoryImpl) FindThemeColorByColorID(colorID auth.ColorID) (*color.Color, error) {
 	query := `
-		SELECT color
+		SELECT color,id
 		FROM room_colors
 		WHERE id = $1
 		`
@@ -81,10 +81,40 @@ func (q *ColorRepositoryImpl) GetThemeColorByColorID(colorID color.ColorID) (*co
 		colorID,
 	).Scan(
 		&themeColor.ColorCode,
+		&themeColor.ColorID,
 	)
 
 	if err != nil {
 		return nil, fmt.Errorf("failed to get theme color:%w", err)
 	}
 	return &themeColor, nil
+}
+
+func (q *ColorRepositoryImpl) FindColorIDsByRoomID(roomID auth.RoomID) ([]auth.ColorID, error) {
+	query := `
+		SELECT id
+		FROM room_colors
+		WHERE room_id = $1
+		`
+
+	rows, err := q.db.Query(
+		query,
+		roomID,
+	)
+	if err != nil {
+		return nil, fmt.Errorf("failed to get color ids:%w", err)
+	}
+
+	var colorIDs []auth.ColorID
+	for rows.Next() {
+		var colorID auth.ColorID
+		err := rows.Scan(
+			&colorID,
+		)
+		if err != nil {
+			return nil, fmt.Errorf("failed to scan color ids:%w", err)
+		}
+		colorIDs = append(colorIDs, colorID)
+	}
+	return colorIDs, nil
 }

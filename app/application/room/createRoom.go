@@ -4,14 +4,12 @@ import (
 	"fmt"
 	"picolor-backend/app/domain/auth"
 	"picolor-backend/app/domain/room"
-	"time"
 )
 
 func (c *RoomServiceImpl) CreateRoom() (*auth.RoomID, error) {
 	CreateRoom := room.Room{
 		IsStart:  false,
 		IsFinish: false,
-		StartAt:  time.Now(),
 	}
 
 	CreatedRoom, err := c.roomRepo.CreateRoom(CreateRoom)

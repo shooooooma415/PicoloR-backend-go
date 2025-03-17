@@ -11,9 +11,9 @@ import (
 	repo "picolor-backend/app/infrastructure/postgresql/repository"
 	utils "picolor-backend/app/infrastructure/postgresql/utils"
 	v1 "picolor-backend/app/server/v1"
+	presentation "picolor-backend/app/presentation"
 
 	"github.com/gorilla/mux"
-	"github.com/gorilla/handlers"
 )
 
 func main() {
@@ -41,15 +41,10 @@ func main() {
 	hostRouter := router.PathPrefix("/host").Subrouter()
 	v1.HostRouter(hostRouter, roomService, postService)
 
-	corsMiddleware := handlers.CORS(
-		handlers.AllowedOrigins([]string{"http://localhost:9000", "https://your-frontend-domain.com"}),
-		handlers.AllowedMethods([]string{"GET", "POST", "PUT", "DELETE", "OPTIONS"}),
-		handlers.AllowedHeaders([]string{"Content-Type", "Authorization"}),
-		handlers.AllowCredentials(),
-	)
+	corsHandler := presentation.CORSMiddleware(router)
 
 	log.Println("Server is running on :8000")
-	if err := http.ListenAndServe(":8000", corsMiddleware(router)); err != nil {
+	if err := http.ListenAndServe(":8000", corsHandler); err != nil {
 		log.Fatalf("Failed to start server: %v", err)
 	}
 }
