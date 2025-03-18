@@ -15,14 +15,14 @@ func (c *RoomServiceImpl) ResetRoom(roomID auth.RoomID) (*auth.RoomID, error) {
 	roomID = *tempRoomID
 	deletedRoomID = tempRoomID
 
-	tempPostRoomID, err := c.colorRepo.DeleteThemeColors(roomID)
+	tempPostRoomID, err := c.postRepo.DeletePostByRoomID(roomID)
 	if err != nil {
 		return nil, fmt.Errorf("failed to reset room with ID: %v", err)
 	}
 	roomID = *tempPostRoomID
 	deletedRoomID = tempPostRoomID
 
-	_, err = c.postRepo.DeletePostByRoomID(roomID)
+	_, err = c.colorRepo.DeleteThemeColors(roomID)
 	if err != nil {
 		return nil, fmt.Errorf("failed to reset room with ID: %v", err)
 	}
