@@ -212,3 +212,52 @@ func (q *RoomRepositoryImpl) CreateStartAt(rm room.Room) (*room.Room, error) {
 	}
 	return &updatedRoom, nil
 }
+
+func (q *RoomRepositoryImpl) UpdateIsStartAndIsFinishToFalse(roomID auth.RoomID) (*room.Room, error) {
+	query := `
+		UPDATE rooms
+		SET is_start = false, is_finish = false
+		WHERE id = $1
+		RETURNING id, is_start, is_finish, start_at
+		`
+
+	var updatedRoom room.Room
+
+	err := q.db.QueryRow(
+		query,
+		roomID,
+	).Scan(
+		&updatedRoom.RoomID,
+		&updatedRoom.IsStart,
+		&updatedRoom.IsFinish,
+		&updatedRoom.StartAt,
+	)
+
+	if err != nil {
+		return nil, fmt.Errorf("failed to update is_start and is_finish to false:%w", err)
+	}
+	return &updatedRoom, nil
+}
+
+func (q *RoomRepositoryImpl) DeleteStartAt(roomID auth.RoomID) (*auth.RoomID, error) {
+	query := `
+		UPDATE rooms
+		SET start_at = null
+		WHERE id = $1
+		RETURNING id
+		`
+
+	var deletedRoomID auth.RoomID
+
+	err := q.db.QueryRow(
+		query,
+		roomID,
+	).Scan(
+		&deletedRoomID,
+	)
+
+	if err != nil {
+		return nil, fmt.Errorf("failed to delete start_at:%w", err)
+	}
+	return &deletedRoomID, nil
+}
