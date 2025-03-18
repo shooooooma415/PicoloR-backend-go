@@ -189,8 +189,8 @@ func (q *RoomRepositoryImpl) UpdateIsFinish(roomID auth.RoomID) (*room.Room, err
 
 func (q *RoomRepositoryImpl) CreateStartAt(rm room.Room) (*room.Room, error) {
 	query := `
-		INSERT INTO rooms (start_at)
-		VALUES ($1)
+		UPDATE rooms
+		SET start_at = ($1)
 		WHERE id = ($2)
 		RETURNING id, is_start, is_finish, start_at
 		`
