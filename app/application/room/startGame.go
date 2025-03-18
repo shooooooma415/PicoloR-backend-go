@@ -1,6 +1,7 @@
 package room
 
 import (
+	"fmt"
 	"picolor-backend/app/domain/auth"
 	"picolor-backend/app/domain/room"
 	"time"
@@ -14,9 +15,12 @@ type StartGame struct {
 func (c *RoomServiceImpl) StartGame(param StartGame) (*room.Room, error) {
 	c.roomRepo.UpdateIsStart(param.RoomID)
 
-	startedRoom, _ := c.roomRepo.CreateStartAt(room.Room{
+	startedRoom, err := c.roomRepo.CreateStartAt(room.Room{
 		RoomID:  param.RoomID,
 		StartAt: param.StartAt,
 	})
+	if err != nil {
+		return nil, fmt.Errorf("failed to start game: %w", err)
+	}
 	return startedRoom, nil
 }

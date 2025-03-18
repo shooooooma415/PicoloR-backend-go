@@ -1,12 +1,16 @@
 package post
 
 import (
+	"fmt"
 	"picolor-backend/app/domain/auth"
 	"picolor-backend/app/domain/post"
 )
 
 func (s *PostServiceImpl) GetPostsByRoomID(roomID auth.RoomID) ([]post.GetPost, error) {
-	posts, _ := s.postRepo.FindPostsByRoomID(roomID)
+	posts, err := s.postRepo.FindPostsByRoomID(roomID)
+	if err != nil {
+		return nil, fmt.Errorf("failed to get posts: %w", err)
+	}
 	var getPosts []post.GetPost
 
 	for _, p := range posts {
