@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 	roomApp "picolor-backend/app/application/room"
-	auth "picolor-backend/app/domain/auth"
+	"picolor-backend/app/domain/auth"
 	"picolor-backend/app/infrastructure/postgresql/utils"
 	"strconv"
 )
