@@ -105,9 +105,12 @@ func (q *RoomRepositoryImpl) DeleteRoom(roomID auth.RoomID) (*auth.RoomID, error
 	)
 
 	if err != nil {
-		return nil, fmt.Errorf("failed to delete user:%w", err)
-	}
-	return &deletedRoomID, nil
+        if err == sql.ErrNoRows {
+            return nil, fmt.Errorf("no room found with id: %v", roomID)
+        }
+        return nil, fmt.Errorf("failed to delete room: %w", err)
+    }
+    return &deletedRoomID, nil
 }
 
 func (q *RoomRepositoryImpl) DeleteRoomMembersByRoomID(roomID auth.RoomID) (*auth.RoomID, error) {
