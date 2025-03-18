@@ -27,12 +27,18 @@ func NewDeleteRoom(service *roomApp.RoomServiceImpl) *DeleteRoom {
 func (pc *DeleteRoom) DeleteRoomHandler() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var req DeleteRoomParams
-		roomID, err := pc.service.DeleteRoom(req.RoomID)
-		if err != nil {
-			w.WriteHeader(http.StatusInternalServerError)
-			json.NewEncoder(w).Encode(utils.NewErrorResponse(err.Error()))
-			return
-		}
+		if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+            w.WriteHeader(http.StatusBadRequest)
+            json.NewEncoder(w).Encode(utils.NewErrorResponse("invalid request payload"))
+            return
+        }
+
+        roomID, err := pc.service.DeleteRoom(req.RoomID)
+        if err != nil {
+            w.WriteHeader(http.StatusInternalServerError)
+            json.NewEncoder(w).Encode(utils.NewErrorResponse(err.Error()))
+            return
+        }
 
 		res := DeleteRoomResponse{
 			RoomID: *roomID,

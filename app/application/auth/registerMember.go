@@ -6,10 +6,7 @@ import (
 	"picolor-backend/app/domain/room"
 )
 
-
-
 func (c *AuthServiceImpl) RegisterMember(joinRoom room.RoomMember) (*auth.UserID, error) {
-
 
 	roomMember, err := c.roomRepo.CreateRoomMember(joinRoom)
 
