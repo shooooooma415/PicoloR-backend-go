@@ -238,3 +238,26 @@ func (q *RoomRepositoryImpl) UpdateIsStartAndIsFinishToFalse(roomID auth.RoomID)
 	}
 	return &updatedRoom, nil
 }
+
+func (q *RoomRepositoryImpl) DeleteStartAt(roomID auth.RoomID) (*auth.RoomID, error) {
+	query := `
+		UPDATE rooms
+		SET start_at = null
+		WHERE id = $1
+		RETURNING id
+		`
+
+	var deletedRoomID auth.RoomID
+
+	err := q.db.QueryRow(
+		query,
+		roomID,
+	).Scan(
+		&deletedRoomID,
+	)
+
+	if err != nil {
+		return nil, fmt.Errorf("failed to delete start_at:%w", err)
+	}
+	return &deletedRoomID, nil
+}

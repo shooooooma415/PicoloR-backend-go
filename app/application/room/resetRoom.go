@@ -35,5 +35,10 @@ func (c *RoomServiceImpl) ResetRoom(roomID auth.RoomID) (*auth.RoomID, error) {
 	if err != nil {
 		return nil, fmt.Errorf("failed to reset room with ID: %v", err)
 	}
+
+	_, err = c.roomRepo.DeleteStartAt(roomID)
+	if err != nil {
+		return nil, fmt.Errorf("failed to reset room with ID: %v", err)
+	}
 	return deletedRoomID, nil
 }
