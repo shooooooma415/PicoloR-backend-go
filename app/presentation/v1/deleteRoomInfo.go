@@ -4,8 +4,9 @@ import (
 	"encoding/json"
 	"net/http"
 	roomApp "picolor-backend/app/application/room"
-	auth "picolor-backend/app/domain/auth"
+	"picolor-backend/app/domain/auth"
 	"picolor-backend/app/infrastructure/postgresql/utils"
+	"strconv"
 )
 
 type DeleteRoomInfoResponse struct {
@@ -26,8 +27,13 @@ func NewDeleteRoomInfo(service *roomApp.RoomServiceImpl) *DeleteRoomInfo {
 
 func (pc *DeleteRoomInfo) DeleteRoomInfoHandler() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req DeleteRoomParams
-		roomID, err := pc.service.ResetRoom(req.RoomID)
+		roomIDStr := r.URL.Query().Get("roomID")
+		roomID, err := strconv.Atoi(roomIDStr)
+		if err != nil {
+			w.WriteHeader(http.StatusBadRequest)
+			return
+		}
+		deletedRoomID, err := pc.service.ResetRoom(auth.RoomID(roomID))
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			json.NewEncoder(w).Encode(utils.NewErrorResponse(err.Error()))
@@ -35,7 +41,7 @@ func (pc *DeleteRoomInfo) DeleteRoomInfoHandler() http.HandlerFunc {
 		}
 
 		res := DeleteRoomResponse{
-			RoomID: *roomID,
+			RoomID: *deletedRoomID,
 		}
 
 		w.Header().Set("Content-Type", "application/json")
