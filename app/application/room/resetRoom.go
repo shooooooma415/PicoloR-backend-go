@@ -17,7 +17,7 @@ func (c *RoomServiceImpl) ResetRoom(roomID auth.RoomID) (*auth.RoomID, error) {
 	roomID = *tempRoomID
 	deletedRoomID = tempRoomID
 
-	tempPostRoomID, err := c.postRepo.DeletePostByRoomID(roomID)
+	tempPostRoomID, err := c.colorRepo.DeleteThemeColors(roomID)
 	if err != nil {
 		log.Printf("Error deleting posts by room ID: %v", err)
 		return nil, err
@@ -25,7 +25,7 @@ func (c *RoomServiceImpl) ResetRoom(roomID auth.RoomID) (*auth.RoomID, error) {
 	roomID = *tempPostRoomID
 	deletedRoomID = tempPostRoomID
 
-	_, err = c.colorRepo.DeleteThemeColors(roomID)
+	_, err = c.postRepo.DeletePostByRoomID(roomID)
 	if err != nil {
 		log.Printf("Error deleting theme colors by room ID: %v", err)
 		return nil, err
